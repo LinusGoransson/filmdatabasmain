@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 /**
@@ -54,18 +55,21 @@ public class fonster extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         InsertButton = new javax.swing.JButton();
         UpdateButton = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        Id = new javax.swing.JTextField();
         Delete = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel1.setMaximumSize(new java.awt.Dimension(680, 573));
+        jPanel1.setMaximumSize(new java.awt.Dimension(1024, 677));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1024, 677));
+        jPanel1.setLayout(null);
 
         jLabel1.setFont(new java.awt.Font("Calibri", 2, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Linus Filmdatabas");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(420, 10, 173, 30);
 
         jTable1.setAutoCreateRowSorter(true);
         jTable1.setFont(new java.awt.Font("Calibri", 2, 11)); // NOI18N
@@ -114,32 +118,49 @@ public class fonster extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(2).setPreferredWidth(200);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
-            jTable1.getColumnModel().getColumn(3).setHeaderValue("IMDb");
             jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setHeaderValue("År");
         }
+
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(180, 50, 670, 430);
+        jPanel1.add(Titel);
+        Titel.setBounds(100, 510, 211, 30);
+        jPanel1.add(Regissor);
+        Regissor.setBounds(100, 550, 156, 30);
 
         Betyg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BetygActionPerformed(evt);
             }
         });
+        jPanel1.add(Betyg);
+        Betyg.setBounds(100, 590, 59, 30);
+        jPanel1.add(Datum);
+        Datum.setBounds(100, 630, 59, 30);
 
         jLabel2.setFont(new java.awt.Font("Calibri", 2, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Titel");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(10, 510, 43, 30);
 
         jLabel3.setFont(new java.awt.Font("Calibri", 2, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Regissör");
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(10, 550, 80, 30);
 
         jLabel5.setFont(new java.awt.Font("Calibri", 2, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("IMDb");
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(10, 590, 54, 30);
 
         jLabel6.setFont(new java.awt.Font("Calibri", 2, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("År");
+        jPanel1.add(jLabel6);
+        jLabel6.setBounds(10, 630, 22, 30);
 
         InsertButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filmdatabasmain/upload.png"))); // NOI18N
         InsertButton.setText("Insert");
@@ -148,6 +169,8 @@ public class fonster extends javax.swing.JFrame {
                 InsertButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(InsertButton);
+        InsertButton.setBounds(360, 520, 100, 30);
 
         UpdateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filmdatabasmain/update.png"))); // NOI18N
         UpdateButton.setText("Update");
@@ -156,10 +179,8 @@ public class fonster extends javax.swing.JFrame {
                 UpdateButtonActionPerformed(evt);
             }
         });
-
-        jLabel7.setFont(new java.awt.Font("Calibri", 2, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Id");
+        jPanel1.add(UpdateButton);
+        UpdateButton.setBounds(360, 630, 100, 25);
 
         Delete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filmdatabasmain/delete.png"))); // NOI18N
         Delete.setText("Delete");
@@ -168,93 +189,21 @@ public class fonster extends javax.swing.JFrame {
                 DeleteActionPerformed(evt);
             }
         });
+        jPanel1.add(Delete);
+        Delete.setBounds(360, 580, 100, 25);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(245, 245, 245)
-                                .addComponent(jLabel1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(Datum, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Id, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(Regissor, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(Titel, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(Betyg, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(121, 121, 121)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(InsertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(UpdateButton))
-                                        .addGap(141, 141, 141))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel7)))
-                        .addGap(0, 10, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Titel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(InsertButton))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(Regissor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Betyg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(Datum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(Delete)
-                        .addGap(18, 18, 18)
-                        .addComponent(UpdateButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filmdatabasmain/moviebackground.jpg"))); // NOI18N
+        jLabel4.setText("jLabel4");
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(0, 0, 1030, 677);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,30 +230,94 @@ public class fonster extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Fel vid radering!");
         }
     }//GEN-LAST:event_DeleteActionPerformed
-    
+
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
-       
-       
-       try {
+
+        try {
             updateTableFromDatabase();
-            
+
         } catch (Exception ex) {
             //ger felmeddelande vid fel inmatning!
             JOptionPane.showMessageDialog(null, "Fel vid update");
         }
     }//GEN-LAST:event_UpdateButtonActionPerformed
-private void updateTableFromDatabase(){
+
+    private void InsertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertButtonActionPerformed
+        try {
+            Connection connection = ConnectionFactory.getConnection();
+            Statement stmt = connection.createStatement();
+            String sql = "INSERT INTO `filmer` (`titel`, `regissör`, `IMDb`, `år`) VALUES ('" + Titel.getText() + "','" + Regissor.getText() + "','" + Betyg.getText() + "','" + Datum.getText() + "')";
+            stmt.executeUpdate(sql);
+            //skriver ut vad som har sparats i databasen
+            JOptionPane.showMessageDialog(null, "Titel: " + Titel.getText() + "\nRegissör: " + Regissor.getText() + "\nBetyg: " + Betyg.getText() + "\nDatum: " + Datum.getText() + "\nFinns nu med i databasen!");
+            updateTableFromDatabase();
+        } catch (Exception ex) {
+            //ger felmeddelande vid fel inmatning!
+            JOptionPane.showMessageDialog(null, "Fel inmatning");
+        }
+
+        //gör så att alla text fält blir blanka.
+        Titel.setText("");
+        Regissor.setText("");
+        Betyg.setText("");
+        Datum.setText("");
+
+    }//GEN-LAST:event_InsertButtonActionPerformed
+
+    private void BetygActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BetygActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BetygActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        try {
+            Connection connection = ConnectionFactory.getConnection();
+            Statement stmt = connection.createStatement();
+            int i = jTable1.getSelectedRow();
+            TableModel model = jTable1.getModel();
+            Titel.setText(model.getValueAt(i, 1).toString());
+            Regissor.setText(model.getValueAt(i, 2).toString());
+            Betyg.setText(model.getValueAt(i, 3).toString());
+            Datum.setText(model.getValueAt(i, 4).toString());
+
+        } catch (Exception ex) {
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTable1ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTable1ComponentAdded
+        try {
+            Connection connection = ConnectionFactory.getConnection();
+            Statement stmt = connection.createStatement();
+
+        } catch (Exception ex) {
+        }
+    }//GEN-LAST:event_jTable1ComponentAdded
+    private void updateTableFromDatabase(){
      try {
             Connection connection = ConnectionFactory.getConnection();
             Statement stmt = connection.createStatement();
             String sql = "SELECT id, titel, regissör, IMDb, år FROM filmer";
             ResultSet data = stmt.executeQuery(sql);
             jTable1.setModel(buildTableModel(data));
+            //sätter storleken till dess ursprunliga storlek
             jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
             jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
             jTable1.getColumnModel().getColumn(2).setPreferredWidth(200);
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
-            
+            //gör så att kolumnen inte går att ändra storlek på 
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);       
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            //Byter namn på tabell huvuden till Id, Titel, Regissör, IMDb och År 
+            jTable1.getColumnModel().getColumn(0).setHeaderValue("Id");
+            jTable1.getColumnModel().getColumn(1).setHeaderValue("Titel");
+            jTable1.getColumnModel().getColumn(2).setHeaderValue("Regissör");
+            jTable1.getColumnModel().getColumn(3).setHeaderValue("IMDb");
+            jTable1.getColumnModel().getColumn(4).setHeaderValue("År");
+            //Flyttar Id så att den ligger åt höger i tabellen
+            DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+            rightRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+            jTable1.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
         } catch (SQLException ex) {
             System.out.println("Sätt på databasen!!");
         }
@@ -334,59 +347,7 @@ private void updateTableFromDatabase(){
 
     return new DefaultTableModel(data, columnNames);
 
-}
-    private void InsertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertButtonActionPerformed
-        try {
-            Connection connection = ConnectionFactory.getConnection();
-            Statement stmt = connection.createStatement();
-            String sql = "INSERT INTO `filmer` (`titel`, `regissör`, `IMDb`, `år`) VALUES ('" + Titel.getText() + "','" + Regissor.getText() + "','" + Betyg.getText() + "','" + Datum.getText() + "')";
-            stmt.executeUpdate(sql);
-            //skriver ut vad som har sparats i databasen
-            JOptionPane.showMessageDialog(null, "Titel: " + Titel.getText() + "\nRegissör: " + Regissor.getText() + "\nBetyg: " + Betyg.getText() + "\nDatum: " + Datum.getText() + "\nFinns nu med i databasen!");
-            updateTableFromDatabase();
-        } catch (Exception ex) {
-            //ger felmeddelande vid fel inmatning!
-            JOptionPane.showMessageDialog(null, "Fel inmatning");
-        }
-
-        //gör så att alla text fält blir blanka.
-        Titel.setText("");
-        Regissor.setText("");
-        Betyg.setText("");
-        Datum.setText("");
-       
-    }//GEN-LAST:event_InsertButtonActionPerformed
-    
-    private void BetygActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BetygActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BetygActionPerformed
-
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        try {
-            Connection connection = ConnectionFactory.getConnection();
-            Statement stmt = connection.createStatement();
-            int i = jTable1.getSelectedRow();
-            TableModel model = jTable1.getModel();
-            Id.setText(model.getValueAt(i, 0).toString());
-            Titel.setText(model.getValueAt(i, 1).toString());
-            Regissor.setText(model.getValueAt(i, 2).toString());
-            Betyg.setText(model.getValueAt(i, 3).toString());
-            Datum.setText(model.getValueAt(i, 4).toString());
-
-        } catch (Exception ex) {
-        }
-    }//GEN-LAST:event_jTable1MouseClicked
-
-    private void jTable1ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTable1ComponentAdded
-        try {
-            Connection connection = ConnectionFactory.getConnection();
-            Statement stmt = connection.createStatement();
-            
-
-        } catch (Exception ex) {
-        }
-    }//GEN-LAST:event_jTable1ComponentAdded
-    
+}        
    
     /**
      * @param args the command line arguments
@@ -427,7 +388,6 @@ private void updateTableFromDatabase(){
     private javax.swing.JTextField Betyg;
     private javax.swing.JTextField Datum;
     private javax.swing.JButton Delete;
-    private javax.swing.JTextField Id;
     private javax.swing.JButton InsertButton;
     private javax.swing.JTextField Regissor;
     private javax.swing.JTextField Titel;
@@ -438,9 +398,9 @@ private void updateTableFromDatabase(){
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
