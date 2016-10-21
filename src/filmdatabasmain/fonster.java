@@ -6,10 +6,14 @@
 package filmdatabasmain;
 
 import com.mysql.jdbc.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
 /**
  *
  * @author linusgoransson
@@ -22,7 +26,7 @@ public class fonster extends javax.swing.JFrame {
     public fonster() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,7 +50,6 @@ public class fonster extends javax.swing.JFrame {
         Datum = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         InsertButton = new javax.swing.JButton();
@@ -58,6 +61,7 @@ public class fonster extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel1.setMaximumSize(new java.awt.Dimension(680, 573));
 
         jLabel1.setFont(new java.awt.Font("Calibri", 2, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -129,10 +133,6 @@ public class fonster extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Regissör");
 
-        jLabel4.setFont(new java.awt.Font("Calibri", 2, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("IMDb");
-
         jLabel5.setFont(new java.awt.Font("Calibri", 2, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("IMDb");
@@ -141,6 +141,7 @@ public class fonster extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("År");
 
+        InsertButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filmdatabasmain/upload.png"))); // NOI18N
         InsertButton.setText("Insert");
         InsertButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,6 +149,7 @@ public class fonster extends javax.swing.JFrame {
             }
         });
 
+        UpdateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filmdatabasmain/update.png"))); // NOI18N
         UpdateButton.setText("Update");
         UpdateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,6 +161,7 @@ public class fonster extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Id");
 
+        Delete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filmdatabasmain/delete.png"))); // NOI18N
         Delete.setText("Delete");
         Delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,41 +175,42 @@ public class fonster extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(245, 245, 245)
-                            .addComponent(jLabel1))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel6))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(Datum, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Id, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(Regissor, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Titel, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(Betyg, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(UpdateButton)
-                                        .addComponent(InsertButton)
-                                        .addComponent(Delete))
-                                    .addGap(141, 141, 141)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel7)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(245, 245, 245)
+                                .addComponent(jLabel1))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(Datum, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(Id, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Regissor, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(Titel, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(Betyg, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(121, 121, 121)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(InsertButton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(Delete, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(UpdateButton))
+                                        .addGap(141, 141, 141))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel7)))
+                        .addGap(0, 10, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,49 +218,43 @@ public class fonster extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Titel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(InsertButton))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(Regissor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Titel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(InsertButton))
+                            .addComponent(Betyg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(Regissor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(Betyg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Datum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(Delete)
-                                .addGap(18, 18, 18)
-                                .addComponent(UpdateButton))))
-                    .addComponent(jLabel4))
+                            .addComponent(Datum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(Delete)
+                        .addGap(18, 18, 18)
+                        .addComponent(UpdateButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(Id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,17 +275,66 @@ public class fonster extends javax.swing.JFrame {
             String sql = "DELETE FROM `filmer` WHERE `filmer`.`id` = " +id;
             System.out.println(jTable1.getSelectedRow());
             stmt.executeUpdate(sql);
-
+            updateTableFromDatabase();
         } catch (Exception ex) {
             //ger felmeddelande vid fel inmatning!
             JOptionPane.showMessageDialog(null, "Fel vid radering!");
         }
     }//GEN-LAST:event_DeleteActionPerformed
-
+    
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
        
+       
+       try {
+            updateTableFromDatabase();
+            
+        } catch (Exception ex) {
+            //ger felmeddelande vid fel inmatning!
+            JOptionPane.showMessageDialog(null, "Fel vid update");
+        }
     }//GEN-LAST:event_UpdateButtonActionPerformed
+private void updateTableFromDatabase(){
+     try {
+            Connection connection = ConnectionFactory.getConnection();
+            Statement stmt = connection.createStatement();
+            String sql = "SELECT id, titel, regissör, IMDb, år FROM filmer";
+            ResultSet data = stmt.executeQuery(sql);
+            jTable1.setModel(buildTableModel(data));
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
+            
+        } catch (SQLException ex) {
+            System.out.println("Sätt på databasen!!");
+        }
+    }
+    
+    public static DefaultTableModel buildTableModel(ResultSet rs)
+        throws SQLException {
 
+    ResultSetMetaData metaData = rs.getMetaData();
+
+    // names of columns
+    Vector<String> columnNames = new Vector<String>();
+    int columnCount = metaData.getColumnCount();
+    for (int column = 1; column <= columnCount; column++) {
+        columnNames.add(metaData.getColumnName(column));
+    }
+
+    // data of the table
+    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+    while (rs.next()) {
+        Vector<Object> vector = new Vector<Object>();
+        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+            vector.add(rs.getObject(columnIndex));
+        }
+        data.add(vector);
+    }
+
+    return new DefaultTableModel(data, columnNames);
+
+}
     private void InsertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertButtonActionPerformed
         try {
             Connection connection = ConnectionFactory.getConnection();
@@ -296,7 +343,7 @@ public class fonster extends javax.swing.JFrame {
             stmt.executeUpdate(sql);
             //skriver ut vad som har sparats i databasen
             JOptionPane.showMessageDialog(null, "Titel: " + Titel.getText() + "\nRegissör: " + Regissor.getText() + "\nBetyg: " + Betyg.getText() + "\nDatum: " + Datum.getText() + "\nFinns nu med i databasen!");
-
+            updateTableFromDatabase();
         } catch (Exception ex) {
             //ger felmeddelande vid fel inmatning!
             JOptionPane.showMessageDialog(null, "Fel inmatning");
@@ -307,6 +354,7 @@ public class fonster extends javax.swing.JFrame {
         Regissor.setText("");
         Betyg.setText("");
         Datum.setText("");
+       
     }//GEN-LAST:event_InsertButtonActionPerformed
     
     private void BetygActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BetygActionPerformed
@@ -390,7 +438,6 @@ public class fonster extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -399,4 +446,5 @@ public class fonster extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
+    
 }
