@@ -180,7 +180,7 @@ public class fonster extends javax.swing.JFrame {
             }
         });
         jPanel1.add(UpdateButton);
-        UpdateButton.setBounds(360, 630, 100, 25);
+        UpdateButton.setBounds(360, 620, 100, 30);
 
         Delete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filmdatabasmain/delete.png"))); // NOI18N
         Delete.setText("Delete");
@@ -190,7 +190,7 @@ public class fonster extends javax.swing.JFrame {
             }
         });
         jPanel1.add(Delete);
-        Delete.setBounds(360, 580, 100, 25);
+        Delete.setBounds(360, 570, 100, 30);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filmdatabasmain/moviebackground.jpg"))); // NOI18N
         jLabel4.setText("jLabel4");
@@ -225,6 +225,7 @@ public class fonster extends javax.swing.JFrame {
             System.out.println(jTable1.getSelectedRow());
             stmt.executeUpdate(sql);
             updateTableFromDatabase();
+            JOptionPane.showMessageDialog(null, "Filmen " + Titel.getText()  + " är nu raderad ifrån databasen!");
         } catch (Exception ex) {
             //ger felmeddelande vid fel inmatning!
             JOptionPane.showMessageDialog(null, "Fel vid radering!");
@@ -234,11 +235,16 @@ public class fonster extends javax.swing.JFrame {
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
 
         try {
+            Connection connection = ConnectionFactory.getConnection();
+            Statement stmt = connection.createStatement();
+            int i = jTable1.getSelectedRow();
+            String id = jTable1.getModel().getValueAt(i, 0).toString();
+            String sql = "UPDATE filmer SET titel ='"+Titel.getText()+"',regissör='"+Regissor.getText()+"',IMDb='"+Betyg.getText()+"',år='"+Datum.getText()+"' WHERE id='" +id+"'";
+            stmt.executeUpdate(sql);
             updateTableFromDatabase();
-
         } catch (Exception ex) {
             //ger felmeddelande vid fel inmatning!
-            JOptionPane.showMessageDialog(null, "Fel vid update");
+            JOptionPane.showMessageDialog(null, "Fel vid update (är filmen vald i tabellen?)");
         }
     }//GEN-LAST:event_UpdateButtonActionPerformed
 
@@ -248,9 +254,11 @@ public class fonster extends javax.swing.JFrame {
             Statement stmt = connection.createStatement();
             String sql = "INSERT INTO `filmer` (`titel`, `regissör`, `IMDb`, `år`) VALUES ('" + Titel.getText() + "','" + Regissor.getText() + "','" + Betyg.getText() + "','" + Datum.getText() + "')";
             stmt.executeUpdate(sql);
+            //kallar på updaterings funktionen
+            updateTableFromDatabase();
             //skriver ut vad som har sparats i databasen
             JOptionPane.showMessageDialog(null, "Titel: " + Titel.getText() + "\nRegissör: " + Regissor.getText() + "\nBetyg: " + Betyg.getText() + "\nDatum: " + Datum.getText() + "\nFinns nu med i databasen!");
-            updateTableFromDatabase();
+            
         } catch (Exception ex) {
             //ger felmeddelande vid fel inmatning!
             JOptionPane.showMessageDialog(null, "Fel inmatning");
@@ -319,7 +327,7 @@ public class fonster extends javax.swing.JFrame {
             rightRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
             jTable1.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
         } catch (SQLException ex) {
-            System.out.println("Sätt på databasen!!");
+            System.out.println("Fel vid updaterings funktionen");
         }
     }
     
