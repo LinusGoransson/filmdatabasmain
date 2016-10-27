@@ -21,12 +21,13 @@ import javax.swing.table.TableModel;
  * @author linusgoransson
  */
 public class fonster extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form fonster
      */
     public fonster() {
         initComponents();
+        updateTableFromDatabase();
     }
 
     /**
@@ -43,7 +44,12 @@ public class fonster extends javax.swing.JFrame {
         filmerQuery = java.beans.Beans.isDesignTime() ? null : entityManager.createQuery("SELECT f FROM Filmer f");
         filmerList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : filmerQuery.getResultList();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        titelSort = new javax.swing.JLabel();
+        idSort = new javax.swing.JLabel();
+        IMDbSort = new javax.swing.JLabel();
+        arSort = new javax.swing.JLabel();
+        regissorSort1 = new javax.swing.JLabel();
+        LinusFilmsdatabas = new javax.swing.JLabel();
         beskrivning_Text = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -67,18 +73,72 @@ public class fonster extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(1024, 677));
         jPanel1.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Calibri", 2, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Linus Filmdatabas");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(420, 10, 173, 30);
+        titelSort.setForeground(new java.awt.Color(255, 0, 0));
+        titelSort.setText("Titel");
+        titelSort.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        titelSort.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                titelSortMouseClicked(evt);
+            }
+        });
+        jPanel1.add(titelSort);
+        titelSort.setBounds(50, 110, 40, 14);
+
+        idSort.setForeground(new java.awt.Color(255, 0, 0));
+        idSort.setText("Id");
+        idSort.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        idSort.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                idSortMouseClicked(evt);
+            }
+        });
+        jPanel1.add(idSort);
+        idSort.setBounds(50, 150, 10, 20);
+
+        IMDbSort.setForeground(new java.awt.Color(255, 0, 0));
+        IMDbSort.setText("IMDb");
+        IMDbSort.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        IMDbSort.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                IMDbSortMouseClicked(evt);
+            }
+        });
+        jPanel1.add(IMDbSort);
+        IMDbSort.setBounds(50, 230, 40, 14);
+
+        arSort.setForeground(new java.awt.Color(255, 0, 0));
+        arSort.setText("År");
+        arSort.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        arSort.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                arSortMouseClicked(evt);
+            }
+        });
+        jPanel1.add(arSort);
+        arSort.setBounds(50, 260, 60, 14);
+
+        regissorSort1.setForeground(new java.awt.Color(255, 0, 0));
+        regissorSort1.setText("Regissör");
+        regissorSort1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        regissorSort1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                regissorSort1MouseClicked(evt);
+            }
+        });
+        jPanel1.add(regissorSort1);
+        regissorSort1.setBounds(50, 190, 60, 14);
+
+        LinusFilmsdatabas.setFont(new java.awt.Font("Calibri", 2, 24)); // NOI18N
+        LinusFilmsdatabas.setForeground(new java.awt.Color(255, 255, 255));
+        LinusFilmsdatabas.setText("Linus Filmdatabas");
+        jPanel1.add(LinusFilmsdatabas);
+        LinusFilmsdatabas.setBounds(420, 10, 173, 30);
 
         beskrivning_Text.setForeground(new java.awt.Color(255, 255, 255));
         beskrivning_Text.setText("Beskrivning");
         jPanel1.add(beskrivning_Text);
         beskrivning_Text.setBounds(540, 520, 460, 130);
 
-        jTable1.setAutoCreateRowSorter(true);
         jTable1.setBackground(new java.awt.Color(0, 0, 0));
         jTable1.setFont(new java.awt.Font("Calibri", 2, 11)); // NOI18N
         jTable1.setForeground(new java.awt.Color(255, 255, 255));
@@ -206,6 +266,7 @@ public class fonster extends javax.swing.JFrame {
         jPanel1.add(Delete);
         Delete.setBounds(360, 570, 100, 30);
 
+        jLabel4.setForeground(new java.awt.Color(255, 51, 51));
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filmdatabasmain/moviebackground.jpg"))); // NOI18N
         jLabel4.setText("jLabel4");
         jPanel1.add(jLabel4);
@@ -228,7 +289,7 @@ public class fonster extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
         try {
             Connection connection = ConnectionFactory.getConnection();
@@ -236,12 +297,11 @@ public class fonster extends javax.swing.JFrame {
             
             int i = jTable1.getSelectedRow();
             String id = jTable1.getModel().getValueAt(i, 0).toString();
-            //String sql = "DELETE FROM `filmer` WHERE `filmer`.`id` = " + id;
-            JOptionPane.showMessageDialog(null,id);
+            String sql = "DELETE FROM `filmer` WHERE `filmer`.`id` = " + id;
             System.out.println(jTable1.getSelectedRow());
-            //stmt.executeUpdate(sql);
+            stmt.executeUpdate(sql);
             updateTableFromDatabase();
-            //JOptionPane.showMessageDialog(null, "Filmen " + Titel.getText() + " är nu raderad ifrån databasen!");
+            JOptionPane.showMessageDialog(null, "Filmen " + Titel.getText() + " är nu raderad ifrån databasen!");
         } catch (Exception ex) {
             //ger felmeddelande vid fel inmatning!
             JOptionPane.showMessageDialog(null, "Fel vid radering!");
@@ -285,6 +345,7 @@ public class fonster extends javax.swing.JFrame {
         Regissor.setText("");
         Betyg.setText("");
         Datum.setText("");
+        
 
     }//GEN-LAST:event_InsertButtonActionPerformed
 
@@ -307,18 +368,183 @@ public class fonster extends javax.swing.JFrame {
             stmt.executeUpdate(sql);
             beskrivning_Text.setText(sql);
             beskrivning_Text.repaint();
+            
         } catch (Exception ex) {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTable1ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTable1ComponentAdded
+
+    }//GEN-LAST:event_jTable1ComponentAdded
+
+    private void titelSortMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titelSortMouseClicked
+
+            try {
+            Connection connection = ConnectionFactory.getConnection();
+            Statement stmt = connection.createStatement();
+            String sql = "SELECT id, titel, regissör, IMDb, år FROM filmer ORDER BY titel ASC";
+            ResultSet data = stmt.executeQuery(sql);
+            jTable1.setModel(buildTableModel(data));
+            
+            //sätter storleken till dess ursprunliga storlek
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
+            //gör så att kolumnen inte går att ändra storlek på 
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            
+            //Byter namn på tabell huvuden till Id, Titel, Regissör, IMDb och År 
+            jTable1.getColumnModel().getColumn(0).setHeaderValue("Id");
+            jTable1.getColumnModel().getColumn(1).setHeaderValue("Titel");
+            jTable1.getColumnModel().getColumn(2).setHeaderValue("Regissör");
+            jTable1.getColumnModel().getColumn(3).setHeaderValue("IMDb");
+            jTable1.getColumnModel().getColumn(4).setHeaderValue("År");
+            //Flyttar Id så att den ligger åt höger i tabellen
+            DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+            rightRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+            jTable1.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+            
+        } catch (SQLException ex) {
+            System.out.println("Fel vid titel sortering");
+        }
+    }//GEN-LAST:event_titelSortMouseClicked
+
+    private void idSortMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_idSortMouseClicked
         try {
             Connection connection = ConnectionFactory.getConnection();
             Statement stmt = connection.createStatement();
-
-        } catch (Exception ex) {
+            String sql = "SELECT id, titel, regissör, IMDb, år FROM filmer ORDER BY id ASC";
+            ResultSet data = stmt.executeQuery(sql);
+            jTable1.setModel(buildTableModel(data));
+            //sätter storleken till dess ursprunliga storlek
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
+            //gör så att kolumnen inte går att ändra storlek på 
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            
+            //Byter namn på tabell huvuden till Id, Titel, Regissör, IMDb och År 
+            jTable1.getColumnModel().getColumn(0).setHeaderValue("Id");
+            jTable1.getColumnModel().getColumn(1).setHeaderValue("Titel");
+            jTable1.getColumnModel().getColumn(2).setHeaderValue("Regissör");
+            jTable1.getColumnModel().getColumn(3).setHeaderValue("IMDb");
+            jTable1.getColumnModel().getColumn(4).setHeaderValue("År");
+            //Flyttar Id så att den ligger åt höger i tabellen
+            DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+            rightRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+            jTable1.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+        } catch (SQLException ex) {
+            System.out.println("Fel vid id sortering");
         }
-    }//GEN-LAST:event_jTable1ComponentAdded
+    }//GEN-LAST:event_idSortMouseClicked
+
+    private void regissorSort1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regissorSort1MouseClicked
+        try {
+            Connection connection = ConnectionFactory.getConnection();
+            Statement stmt = connection.createStatement();
+            String sql = "SELECT id, titel, regissör, IMDb, år FROM filmer ORDER BY regissör ASC";
+            ResultSet data = stmt.executeQuery(sql);
+            jTable1.setModel(buildTableModel(data));
+            //sätter storleken till dess ursprunliga storlek
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
+            //gör så att kolumnen inte går att ändra storlek på 
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            
+            //Byter namn på tabell huvuden till Id, Titel, Regissör, IMDb och År 
+            jTable1.getColumnModel().getColumn(0).setHeaderValue("Id");
+            jTable1.getColumnModel().getColumn(1).setHeaderValue("Titel");
+            jTable1.getColumnModel().getColumn(2).setHeaderValue("Regissör");
+            jTable1.getColumnModel().getColumn(3).setHeaderValue("IMDb");
+            jTable1.getColumnModel().getColumn(4).setHeaderValue("År");
+            //Flyttar Id så att den ligger åt höger i tabellen
+            DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+            rightRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+            jTable1.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+        } catch (SQLException ex) {
+            System.out.println("Fel vid reggisör sortering");
+        }
+    }//GEN-LAST:event_regissorSort1MouseClicked
+
+    private void IMDbSortMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IMDbSortMouseClicked
+        try {
+            Connection connection = ConnectionFactory.getConnection();
+            Statement stmt = connection.createStatement();
+            String sql = "SELECT id, titel, regissör, IMDb, år FROM filmer ORDER BY IMDb desc";
+            ResultSet data = stmt.executeQuery(sql);
+            jTable1.setModel(buildTableModel(data));
+            //sätter storleken till dess ursprunliga storlek
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
+            //gör så att kolumnen inte går att ändra storlek på 
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            
+            //Byter namn på tabell huvuden till Id, Titel, Regissör, IMDb och År 
+            jTable1.getColumnModel().getColumn(0).setHeaderValue("Id");
+            jTable1.getColumnModel().getColumn(1).setHeaderValue("Titel");
+            jTable1.getColumnModel().getColumn(2).setHeaderValue("Regissör");
+            jTable1.getColumnModel().getColumn(3).setHeaderValue("IMDb");
+            jTable1.getColumnModel().getColumn(4).setHeaderValue("År");
+            //Flyttar Id så att den ligger åt höger i tabellen
+            DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+            rightRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+            jTable1.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+        } catch (SQLException ex) {
+            System.out.println("Fel vid IMDb sortering");
+        }
+    }//GEN-LAST:event_IMDbSortMouseClicked
+
+    private void arSortMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_arSortMouseClicked
+        try {
+            Connection connection = ConnectionFactory.getConnection();
+            Statement stmt = connection.createStatement();
+            String sql = "SELECT id, titel, regissör, IMDb, år FROM filmer ORDER BY år desc";
+            ResultSet data = stmt.executeQuery(sql);
+            jTable1.setModel(buildTableModel(data));
+            //sätter storleken till dess ursprunliga storlek
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(20);
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
+            //gör så att kolumnen inte går att ändra storlek på 
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            
+            //Byter namn på tabell huvuden till Id, Titel, Regissör, IMDb och År 
+            jTable1.getColumnModel().getColumn(0).setHeaderValue("Id");
+            jTable1.getColumnModel().getColumn(1).setHeaderValue("Titel");
+            jTable1.getColumnModel().getColumn(2).setHeaderValue("Regissör");
+            jTable1.getColumnModel().getColumn(3).setHeaderValue("IMDb");
+            jTable1.getColumnModel().getColumn(4).setHeaderValue("År");
+            //Flyttar Id så att den ligger åt höger i tabellen
+            DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+            rightRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+            jTable1.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+            
+        } catch (SQLException ex) {
+            System.out.println("Fel vid år sortering");
+        }
+    }//GEN-LAST:event_arSortMouseClicked
     private void updateTableFromDatabase() {
         try {
             Connection connection = ConnectionFactory.getConnection();
@@ -347,6 +573,8 @@ public class fonster extends javax.swing.JFrame {
             DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
             rightRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
             jTable1.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+            jScrollPane1.getColumnHeader().setVisible(false);
+            
         } catch (SQLException ex) {
             System.out.println("Fel vid updaterings funktionen");
         }
@@ -417,15 +645,18 @@ public class fonster extends javax.swing.JFrame {
     private javax.swing.JTextField Betyg;
     private javax.swing.JTextField Datum;
     private javax.swing.JButton Delete;
+    private javax.swing.JLabel IMDbSort;
     private javax.swing.JButton InsertButton;
+    private javax.swing.JLabel LinusFilmsdatabas;
     private javax.swing.JTextField Regissor;
     private javax.swing.JTextField Titel;
     private javax.swing.JButton UpdateButton;
+    private javax.swing.JLabel arSort;
     private javax.swing.JLabel beskrivning_Text;
     private javax.persistence.EntityManager entityManager;
     private java.util.List<filmdatabasmain.Filmer> filmerList;
     private javax.persistence.Query filmerQuery;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel idSort;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -434,6 +665,8 @@ public class fonster extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel regissorSort1;
+    private javax.swing.JLabel titelSort;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 
