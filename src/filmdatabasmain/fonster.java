@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
 /**
  *
  * @author linusgoransson
@@ -27,7 +28,7 @@ public class fonster extends javax.swing.JFrame {
     public fonster() {
         initComponents();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,6 +44,7 @@ public class fonster extends javax.swing.JFrame {
         filmerList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : filmerQuery.getResultList();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        beskrivning_Text = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         Titel = new javax.swing.JTextField();
@@ -71,8 +73,20 @@ public class fonster extends javax.swing.JFrame {
         jPanel1.add(jLabel1);
         jLabel1.setBounds(420, 10, 173, 30);
 
+        beskrivning_Text.setForeground(new java.awt.Color(255, 255, 255));
+        beskrivning_Text.setText("Beskrivning");
+        jPanel1.add(beskrivning_Text);
+        beskrivning_Text.setBounds(540, 520, 460, 130);
+
         jTable1.setAutoCreateRowSorter(true);
+        jTable1.setBackground(new java.awt.Color(0, 0, 0));
         jTable1.setFont(new java.awt.Font("Calibri", 2, 11)); // NOI18N
+        jTable1.setForeground(new java.awt.Color(255, 255, 255));
+        jTable1.setFocusable(false);
+        jTable1.setGridColor(new java.awt.Color(0, 0, 0));
+        jTable1.setSelectionBackground(new java.awt.Color(255, 102, 0));
+        jTable1.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        jTable1.setSurrendersFocusOnKeystroke(true);
         jTable1.getTableHeader().setReorderingAllowed(false);
 
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, filmerList, jTable1);
@@ -219,13 +233,15 @@ public class fonster extends javax.swing.JFrame {
         try {
             Connection connection = ConnectionFactory.getConnection();
             Statement stmt = connection.createStatement();
+            
             int i = jTable1.getSelectedRow();
             String id = jTable1.getModel().getValueAt(i, 0).toString();
-            String sql = "DELETE FROM `filmer` WHERE `filmer`.`id` = " +id;
+            //String sql = "DELETE FROM `filmer` WHERE `filmer`.`id` = " + id;
+            JOptionPane.showMessageDialog(null,id);
             System.out.println(jTable1.getSelectedRow());
-            stmt.executeUpdate(sql);
+            //stmt.executeUpdate(sql);
             updateTableFromDatabase();
-            JOptionPane.showMessageDialog(null, "Filmen " + Titel.getText()  + " är nu raderad ifrån databasen!");
+            //JOptionPane.showMessageDialog(null, "Filmen " + Titel.getText() + " är nu raderad ifrån databasen!");
         } catch (Exception ex) {
             //ger felmeddelande vid fel inmatning!
             JOptionPane.showMessageDialog(null, "Fel vid radering!");
@@ -239,7 +255,7 @@ public class fonster extends javax.swing.JFrame {
             Statement stmt = connection.createStatement();
             int i = jTable1.getSelectedRow();
             String id = jTable1.getModel().getValueAt(i, 0).toString();
-            String sql = "UPDATE filmer SET titel ='"+Titel.getText()+"',regissör='"+Regissor.getText()+"',IMDb='"+Betyg.getText()+"',år='"+Datum.getText()+"' WHERE id='" +id+"'";
+            String sql = "UPDATE filmer SET titel ='" + Titel.getText() + "',regissör='" + Regissor.getText() + "',IMDb='" + Betyg.getText() + "',år='" + Datum.getText() + "' WHERE id='" + id + "'";
             stmt.executeUpdate(sql);
             updateTableFromDatabase();
         } catch (Exception ex) {
@@ -258,7 +274,7 @@ public class fonster extends javax.swing.JFrame {
             updateTableFromDatabase();
             //skriver ut vad som har sparats i databasen
             JOptionPane.showMessageDialog(null, "Titel: " + Titel.getText() + "\nRegissör: " + Regissor.getText() + "\nBetyg: " + Betyg.getText() + "\nDatum: " + Datum.getText() + "\nFinns nu med i databasen!");
-            
+
         } catch (Exception ex) {
             //ger felmeddelande vid fel inmatning!
             JOptionPane.showMessageDialog(null, "Fel inmatning");
@@ -281,12 +297,16 @@ public class fonster extends javax.swing.JFrame {
             Connection connection = ConnectionFactory.getConnection();
             Statement stmt = connection.createStatement();
             int i = jTable1.getSelectedRow();
+            String id = jTable1.getModel().getValueAt(i, 0).toString();
             TableModel model = jTable1.getModel();
             Titel.setText(model.getValueAt(i, 1).toString());
             Regissor.setText(model.getValueAt(i, 2).toString());
             Betyg.setText(model.getValueAt(i, 3).toString());
             Datum.setText(model.getValueAt(i, 4).toString());
-
+            String sql = "SELECT beskrivning FROM `filmer` WHERE `filmer`.`id` = " + id;  
+            stmt.executeUpdate(sql);
+            beskrivning_Text.setText(sql);
+            beskrivning_Text.repaint();
         } catch (Exception ex) {
         }
     }//GEN-LAST:event_jTable1MouseClicked
@@ -299,8 +319,8 @@ public class fonster extends javax.swing.JFrame {
         } catch (Exception ex) {
         }
     }//GEN-LAST:event_jTable1ComponentAdded
-    private void updateTableFromDatabase(){
-     try {
+    private void updateTableFromDatabase() {
+        try {
             Connection connection = ConnectionFactory.getConnection();
             Statement stmt = connection.createStatement();
             String sql = "SELECT id, titel, regissör, IMDb, år FROM filmer";
@@ -313,9 +333,10 @@ public class fonster extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(3).setPreferredWidth(40);
             //gör så att kolumnen inte går att ändra storlek på 
             jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);       
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
+            
             //Byter namn på tabell huvuden till Id, Titel, Regissör, IMDb och År 
             jTable1.getColumnModel().getColumn(0).setHeaderValue("Id");
             jTable1.getColumnModel().getColumn(1).setHeaderValue("Titel");
@@ -330,33 +351,33 @@ public class fonster extends javax.swing.JFrame {
             System.out.println("Fel vid updaterings funktionen");
         }
     }
-    
+
     public static DefaultTableModel buildTableModel(ResultSet rs)
-        throws SQLException {
+            throws SQLException {
 
-    ResultSetMetaData metaData = rs.getMetaData();
+        ResultSetMetaData metaData = rs.getMetaData();
 
-    // names of columns
-    Vector<String> columnNames = new Vector<String>();
-    int columnCount = metaData.getColumnCount();
-    for (int column = 1; column <= columnCount; column++) {
-        columnNames.add(metaData.getColumnName(column));
-    }
-
-    // data of the table
-    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-    while (rs.next()) {
-        Vector<Object> vector = new Vector<Object>();
-        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-            vector.add(rs.getObject(columnIndex));
+        // names of columns
+        Vector<String> columnNames = new Vector<String>();
+        int columnCount = metaData.getColumnCount();
+        for (int column = 1; column <= columnCount; column++) {
+            columnNames.add(metaData.getColumnName(column));
         }
-        data.add(vector);
+
+        // data of the table
+        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+        while (rs.next()) {
+            Vector<Object> vector = new Vector<Object>();
+            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+                vector.add(rs.getObject(columnIndex));
+            }
+            data.add(vector);
+        }
+
+        return new DefaultTableModel(data, columnNames);
+
     }
 
-    return new DefaultTableModel(data, columnNames);
-
-}        
-   
     /**
      * @param args the command line arguments
      */
@@ -400,6 +421,7 @@ public class fonster extends javax.swing.JFrame {
     private javax.swing.JTextField Regissor;
     private javax.swing.JTextField Titel;
     private javax.swing.JButton UpdateButton;
+    private javax.swing.JLabel beskrivning_Text;
     private javax.persistence.EntityManager entityManager;
     private java.util.List<filmdatabasmain.Filmer> filmerList;
     private javax.persistence.Query filmerQuery;
@@ -414,5 +436,5 @@ public class fonster extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
-    
+
 }
