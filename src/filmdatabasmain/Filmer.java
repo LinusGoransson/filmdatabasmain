@@ -33,7 +33,7 @@ import javax.persistence.Transient;
     @NamedQuery(name = "Filmer.findBy\u00c5r", query = "SELECT f FROM Filmer f WHERE f.\u00e5r = :\u00e5r"),
     @NamedQuery(name = "Filmer.findById", query = "SELECT f FROM Filmer f WHERE f.id = :id")})
 public class Filmer implements Serializable {
-
+    //Generaread class som skapades då jag connectade min databas med jtable 
     @Transient
     private PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
 
